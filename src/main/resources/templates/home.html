@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>블로그 검색</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table thead th:nth-child(1) { width: 20% }
+        table thead th:nth-child(2) { width: 40% }
+        table thead th:nth-child(3) { width: 10% }
+        table thead th:nth-child(4) { width: 10% }
+        table thead th:nth-child(5) { width: 10% }
+        table thead th:nth-child(6) { width: 10% }
+    </style>
+</head>
+<body class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h1 align-items-center">블로그 검색</h1>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <form class="d-flex" role="search" action="">
+            <div class="col-8">
+                <input id="search-text-input" type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="search" />
+            </div>
+            <div class="col-2">
+                <select id="sort-select" class="form-control" aria-label="sort-select">
+                    <option value="accuracy">정확도순</option>
+                    <option value="recency">최신순</option>
+                </select>
+            </div>
+            <div class="d-grid col-2">
+                <button id="search-button" type="submit" class="btn btn-primary">검색</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row mt-2">
+        <div class="offset-1 col-10">
+            <table id="result-table" class="table">
+                <thead>
+                    <tr>
+                        <th>제목</th>
+                        <th>요약</th>
+                        <th>바로가기</th>
+                        <th>이름</th>
+                        <th>이미지</th>
+                        <th>작성시간</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <nav>
+                <ul id="pagination-ul" class="pagination col justify-content-center"></ul>
+            </nav>
+        </div>
+    </div>
+    <script src="js/jquery-3.6.4.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript">
+        let home = {}
+
+        $(document).ready(function(){
+
+        });
+    </script>
+</body>
+</html>
