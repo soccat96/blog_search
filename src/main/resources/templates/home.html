@@ -90,6 +90,8 @@
     <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript">
         let home = {
+            apiHost: 'KAKAO',
+            // apiHost: 'NAVER',
             size: 10,
             maxSize: 50,
             currentPage: 1,
@@ -158,6 +160,7 @@
                     url: '/v1/blog/search',
                     dataType: 'json',
                     data: {
+                        apiHost: home.apiHost,
                         query: searchText,
                         sort: $('#sort-select').val(),
                         page: home.currentPage,
@@ -169,7 +172,9 @@
                         $('#search-button').prop('disabled', true);
                     },
                     success: function (response) {
-                        if (response.pageableCount === 0) {
+                        home.apiHost = response.apiHost;
+
+                        if (!response || response.pageableCount === 0) {
                             let $tr = $('<tr>');
                             let $td = $('<td>', {text: '검색 결과가 없습니다.', colSpan: 6});
                             $td.css('text-align', 'center');

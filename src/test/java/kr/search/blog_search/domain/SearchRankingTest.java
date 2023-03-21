@@ -1,7 +1,7 @@
 package kr.search.blog_search.domain;
 
 import kr.search.blog_search.service.SearchRankingService;
-import kr.search.blog_search.web.dto.BlogSearchRequestDto;
+import kr.search.blog_search.web.dto.RequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ class SearchRankingTest {
         String searchText = "가나다라마바사아자차카타파하";
 
         searchRankingService.saveOrUpdate(
-                BlogSearchRequestDto.builder()
+                RequestDto.builder()
                         .query(searchText)
                         .build()
         );
@@ -47,7 +47,7 @@ class SearchRankingTest {
         String searchText = "술마시고 노래하고 춤을 춰 봐도";
 
         for(int i=0; i<5; i++) {
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText).build());
         }
         List<SearchRanking> list = searchRankingRepository.findAll();
         assertThat(list.size()).isEqualTo(1);
@@ -71,23 +71,23 @@ class SearchRankingTest {
         String searchText11 = "11번째";
 
         for(int i=0; i<10; i++) {
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText01).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText01).build());
             if(i>9) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText02).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText02).build());
             if(i>8) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText03).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText03).build());
             if(i>4) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText04).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText04).build());
             if(i>4) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText05).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText05).build());
             if(i>4) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText06).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText06).build());
             if(i>0) continue;
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText07).build());
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText08).build());
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText09).build());
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText10).build());
-            searchRankingService.saveOrUpdate(BlogSearchRequestDto.builder().query(searchText11).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText07).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText08).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText09).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText10).build());
+            searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText11).build());
 
         }
         List<SearchRanking> all = searchRankingRepository.findAll();

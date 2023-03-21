@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @Getter
-public class KakaoBlogDocumentDto {
+public class BlogDocumentDto {
     private String title;
     private String contents;
     private String url;
@@ -18,7 +18,7 @@ public class KakaoBlogDocumentDto {
     private LocalDateTime datetime;
 
     @Builder
-    public KakaoBlogDocumentDto(String title, String contents, String url, String blogName, String thumbnail, String datetime) {
+    public BlogDocumentDto(String title, String contents, String url, String blogName, String thumbnail, String datetime) {
         this.title = title;
         this.contents = contents;
         this.url = url;
