@@ -13,10 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 class SearchRankingTest {
-
     @Autowired
     private SearchRankingRepository searchRankingRepository;
-
     @Autowired
     private SearchRankingService searchRankingService;
 
@@ -88,7 +86,6 @@ class SearchRankingTest {
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText09).build());
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText10).build());
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText11).build());
-
         }
         List<SearchRanking> all = searchRankingRepository.findAll();
         List<SearchRanking> top10 = searchRankingRepository.findTop10ByOrderBySearchCountDescSearchTextAsc();

@@ -24,13 +24,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BlogControllerTest {
     @Autowired
     private KakaoApiConnection kakaoApiConnection;
-
-    @Value("${kakao.dapi.host}")
-    private String KAKAO_DAPI_HOST;
-
     @Autowired
     private NaverApiConnection naverApiConnection;
 
+    @Value("${kakao.dapi.host}")
+    private String KAKAO_DAPI_HOST;
     @Value("${naver.openapi.host}")
     private String NAVER_OPENAPI_HOST;
 

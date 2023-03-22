@@ -5,7 +5,10 @@ import kr.search.blog_search.service.SearchRankingService;
 import kr.search.blog_search.util.ApiHost;
 import kr.search.blog_search.util.KakaoApiConnection;
 import kr.search.blog_search.util.NaverApiConnection;
-import kr.search.blog_search.web.dto.*;
+import kr.search.blog_search.web.dto.BlogDocumentDto;
+import kr.search.blog_search.web.dto.RequestDto;
+import kr.search.blog_search.web.dto.ResponseDto;
+import kr.search.blog_search.web.dto.SearchRankingDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,11 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,18 +36,13 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/v1/blog")
 public class BlogController {
-
     private final SearchRankingRepository searchRankingRepository;
-
     private final SearchRankingService searchRankingService;
-
     private final KakaoApiConnection kakaoApiConnection;
-
     private final NaverApiConnection naverApiConnection;
 
     @Value("${kakao.dapi.host}")
     private String KAKAO_DAPI_HOST;
-
     @Value("${naver.openapi.host}")
     private String NAVER_OPENAPI_HOST;
 
@@ -53,7 +53,7 @@ public class BlogController {
         ResponseDto responseDto = null;
         if(requestDto.getApiHost() == ApiHost.KAKAO) {
             HttpURLConnection kakaoConnection = getHttpURLConnection(requestDto);
-            if (kakaoConnection == null || kakaoConnection.getResponseCode() >= 500) {
+            if(kakaoConnection == null || kakaoConnection.getResponseCode() >= 500) {
                 requestDto.setApiHost(ApiHost.NAVER);
             } else {
                 responseDto = makeResponseDtoFromKakao(kakaoConnection);
@@ -61,7 +61,9 @@ public class BlogController {
         }
         if(requestDto.getApiHost() == ApiHost.NAVER) {
             HttpURLConnection naverConnection = getHttpURLConnection(requestDto);
-            responseDto = makeResponseDtoFromNaver(naverConnection);
+            if(naverConnection != null) {
+                responseDto = makeResponseDtoFromNaver(naverConnection);
+            }
         }
 
         return responseDto;
@@ -99,7 +101,7 @@ public class BlogController {
         JSONArray documents = (JSONArray) jsonObject.get("documents");
 
         ArrayList<BlogDocumentDto> blogDocumentDtos = new ArrayList<>();
-        for (int i=0; i<documents.length(); i++) {
+        for(int i=0; i<documents.length(); i++) {
             JSONObject jo = (JSONObject) documents.get(i);
             blogDocumentDtos.add(
                     BlogDocumentDto.builder()
@@ -158,7 +160,7 @@ public class BlogController {
     }
 
     @GetMapping("/top10")
-    public List<SearchRankingDto> getTop5() {
+    public List<SearchRankingDto> getTop10() {
         return searchRankingRepository.findTop10ByOrderBySearchCountDescSearchTextAsc()
                 .stream().map(SearchRankingDto::new).collect(Collectors.toList());
     }

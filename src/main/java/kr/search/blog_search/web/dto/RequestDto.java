@@ -14,7 +14,6 @@ public class RequestDto {
     private String sort = "accuracy";
     private int page = 1;
     private int size = 10;
-
     private ApiHost apiHost = ApiHost.KAKAO;
 
     @Builder

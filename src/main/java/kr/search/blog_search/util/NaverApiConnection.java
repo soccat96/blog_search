@@ -11,7 +11,6 @@ import java.net.URL;
 public class NaverApiConnection {
     @Value("${naver.client.id}")
     private String NAVER_CLIENT_ID;
-
     @Value("${naver.client.secret}")
     private String NAVER_CLIENT_SECRET;
 

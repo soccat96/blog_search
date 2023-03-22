@@ -12,9 +12,9 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 public class SearchRanking {
-    @Id @Column
+    @Id
+    @Column
     private String searchText;
-
     @Column(columnDefinition = "bigint default 0", nullable = false)
     private long searchCount;
 
