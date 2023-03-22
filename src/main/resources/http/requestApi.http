@@ -1,0 +1,7 @@
+### 블로그 검색
+GET http://localhost/v1/blog/search?query=가나다라마바사
+Accept: application/json
+
+### 인기 검색어 조회
+GET http://localhost/v1/blog/top10
+Accept: application/json
