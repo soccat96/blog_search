@@ -12,18 +12,12 @@ public class KakaoApiConnection {
     @Value("${kakao.rest.api.key}")
     private String KAKAO_REST_API_KEY;
 
-    public HttpURLConnection searchBlogGetConnection(URL url) {
-        HttpURLConnection connection = null;
+    public HttpURLConnection searchBlogGetConnection(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Authorization", "KakaoAK " + KAKAO_REST_API_KEY);
+        connection.setRequestMethod("GET");
+        connection.connect();
 
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Authorization", "KakaoAK " + KAKAO_REST_API_KEY);
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            return connection;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return connection;
     }
 }

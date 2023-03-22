@@ -15,19 +15,13 @@ public class NaverApiConnection {
     @Value("${naver.client.secret}")
     private String NAVER_CLIENT_SECRET;
 
-    public HttpURLConnection searchBlogGetConnection(URL url) {
-        HttpURLConnection connection = null;
+    public HttpURLConnection searchBlogGetConnection(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("X-Naver-Client-Id", NAVER_CLIENT_ID);
+        connection.setRequestProperty("X-Naver-Client-Secret", NAVER_CLIENT_SECRET);
+        connection.setRequestMethod("GET");
+        connection.connect();
 
-        try {
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("X-Naver-Client-Id", NAVER_CLIENT_ID);
-            connection.setRequestProperty("X-Naver-Client-Secret", NAVER_CLIENT_SECRET);
-            connection.setRequestMethod("GET");
-            connection.connect();
-
-            return connection;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return connection;
     }
 }

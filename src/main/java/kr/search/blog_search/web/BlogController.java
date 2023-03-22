@@ -67,7 +67,7 @@ public class BlogController {
         return responseDto;
     }
 
-    private HttpURLConnection getHttpURLConnection(RequestDto requestDto) throws MalformedURLException {
+    private HttpURLConnection getHttpURLConnection(RequestDto requestDto) throws IOException {
         if(requestDto.getApiHost() == ApiHost.KAKAO) {
             URL url = new URL(KAKAO_DAPI_HOST
                     + "/v2/search/blog"
@@ -93,76 +93,68 @@ public class BlogController {
         return null;
     }
 
-    private ResponseDto makeResponseDtoFromKakao(HttpURLConnection connection) {
-        try {
-            JSONObject jsonObject = new JSONObject(new JSONTokener(connection.getInputStream()));
-            JSONObject meta = (JSONObject) jsonObject.get("meta");
-            JSONArray documents = (JSONArray) jsonObject.get("documents");
+    private ResponseDto makeResponseDtoFromKakao(HttpURLConnection connection) throws IOException {
+        JSONObject jsonObject = new JSONObject(new JSONTokener(connection.getInputStream()));
+        JSONObject meta = (JSONObject) jsonObject.get("meta");
+        JSONArray documents = (JSONArray) jsonObject.get("documents");
 
-            ArrayList<BlogDocumentDto> blogDocumentDtos = new ArrayList<>();
-            for (int i=0; i<documents.length(); i++) {
-                JSONObject jo = (JSONObject) documents.get(i);
-                blogDocumentDtos.add(
-                        BlogDocumentDto.builder()
-                                .title(jo.getString("title"))
-                                .contents(jo.getString("contents"))
-                                .url(jo.getString("url"))
-                                .blogName(jo.getString("blogname"))
-                                .thumbnail(jo.getString("thumbnail"))
-                                .datetime(jo.getString("datetime"))
-                                .build()
-                );
-            }
-
-            return ResponseDto.builder()
-                    .totalCount(meta.getInt("total_count"))
-                    .pageableCount(meta.getInt("pageable_count"))
-                    .isEnd(meta.getBoolean("is_end"))
-                    .blogDocumentDtos(blogDocumentDtos)
-                    .apiHost(ApiHost.KAKAO)
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        ArrayList<BlogDocumentDto> blogDocumentDtos = new ArrayList<>();
+        for (int i=0; i<documents.length(); i++) {
+            JSONObject jo = (JSONObject) documents.get(i);
+            blogDocumentDtos.add(
+                    BlogDocumentDto.builder()
+                            .title(jo.getString("title"))
+                            .contents(jo.getString("contents"))
+                            .url(jo.getString("url"))
+                            .blogName(jo.getString("blogname"))
+                            .thumbnail(jo.getString("thumbnail"))
+                            .datetime(jo.getString("datetime"))
+                            .build()
+            );
         }
+
+        return ResponseDto.builder()
+                .totalCount(meta.getInt("total_count"))
+                .pageableCount(meta.getInt("pageable_count"))
+                .isEnd(meta.getBoolean("is_end"))
+                .blogDocumentDtos(blogDocumentDtos)
+                .apiHost(ApiHost.KAKAO)
+                .build();
     }
 
-    private ResponseDto makeResponseDtoFromNaver(HttpURLConnection connection) {
-        try {
-            JSONObject jsonObject = new JSONObject(new JSONTokener(connection.getInputStream()));
-            JSONArray items = (JSONArray) jsonObject.get("items");
+    private ResponseDto makeResponseDtoFromNaver(HttpURLConnection connection) throws IOException {
+        JSONObject jsonObject = new JSONObject(new JSONTokener(connection.getInputStream()));
+        JSONArray items = (JSONArray) jsonObject.get("items");
 
-            ArrayList<BlogDocumentDto> blogDocumentDtos = new ArrayList<>();
-            for(int i=0; i<items.length(); i++) {
-                JSONObject jo = (JSONObject) items.get(i);
-                blogDocumentDtos.add(
-                        BlogDocumentDto.builder()
-                                .title(jo.getString("title"))
-                                .contents(jo.getString("description"))
-                                .url(jo.getString("link"))
-                                .blogName(jo.getString("bloggername"))
-                                .thumbnail("")
-                                .datetime(OffsetDateTime.of(
-                                        LocalDate.parse(jo.getString("postdate"), DateTimeFormatter.ofPattern("yyyyMMdd")),
-                                        LocalTime.MIN,
-                                        ZoneOffset.of("+09:00")
-                                ).toString())
-                                .build()
-                );
-            }
-
-            int total = jsonObject.getInt("total");
-            int start = jsonObject.getInt("start");
-            int display = jsonObject.getInt("display");
-            return ResponseDto.builder()
-                    .totalCount(jsonObject.getInt("total"))
-                    .pageableCount(jsonObject.getInt("total"))
-                    .isEnd(start + display >= total)
-                    .blogDocumentDtos(blogDocumentDtos)
-                    .apiHost(ApiHost.NAVER)
-                    .build();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        ArrayList<BlogDocumentDto> blogDocumentDtos = new ArrayList<>();
+        for(int i=0; i<items.length(); i++) {
+            JSONObject jo = (JSONObject) items.get(i);
+            blogDocumentDtos.add(
+                    BlogDocumentDto.builder()
+                            .title(jo.getString("title"))
+                            .contents(jo.getString("description"))
+                            .url(jo.getString("link"))
+                            .blogName(jo.getString("bloggername"))
+                            .thumbnail("")
+                            .datetime(OffsetDateTime.of(
+                                    LocalDate.parse(jo.getString("postdate"), DateTimeFormatter.ofPattern("yyyyMMdd")),
+                                    LocalTime.MIN,
+                                    ZoneOffset.of("+09:00")
+                            ).toString())
+                            .build()
+            );
         }
+
+        int total = jsonObject.getInt("total");
+        int start = jsonObject.getInt("start");
+        int display = jsonObject.getInt("display");
+        return ResponseDto.builder()
+                .totalCount(jsonObject.getInt("total"))
+                .pageableCount(jsonObject.getInt("total"))
+                .isEnd(start + display >= total)
+                .blogDocumentDtos(blogDocumentDtos)
+                .apiHost(ApiHost.NAVER)
+                .build();
     }
 
     @GetMapping("/top10")
