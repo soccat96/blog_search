@@ -56,7 +56,7 @@ let home = {
         $('#pagination-ul').append($liNext);
     },
     search: function(pageNumber) {
-        let searchText = $('#search-text-input').val();
+        let searchText = $('#search-text-input').val().trim();
 
         if (!searchText) {
             $('#search-text-input').focus();
