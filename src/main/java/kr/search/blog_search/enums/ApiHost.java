@@ -1,4 +1,4 @@
-package kr.search.blog_search.util;
+package kr.search.blog_search.enums;
 
 public enum ApiHost {
     KAKAO, NAVER

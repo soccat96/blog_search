@@ -1,10 +1,9 @@
 package kr.search.blog_search.web;
 
+import kr.search.blog_search.api.ApiConnection;
 import kr.search.blog_search.domain.SearchRankingRepository;
+import kr.search.blog_search.enums.ApiHost;
 import kr.search.blog_search.service.SearchRankingService;
-import kr.search.blog_search.util.ApiHost;
-import kr.search.blog_search.util.KakaoApiConnection;
-import kr.search.blog_search.util.NaverApiConnection;
 import kr.search.blog_search.web.dto.BlogDocumentDto;
 import kr.search.blog_search.web.dto.RequestDto;
 import kr.search.blog_search.web.dto.ResponseDto;
@@ -13,16 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -38,13 +33,7 @@ import java.util.stream.Collectors;
 public class BlogController {
     private final SearchRankingRepository searchRankingRepository;
     private final SearchRankingService searchRankingService;
-    private final KakaoApiConnection kakaoApiConnection;
-    private final NaverApiConnection naverApiConnection;
-
-    @Value("${kakao.dapi.host}")
-    private String KAKAO_DAPI_HOST;
-    @Value("${naver.openapi.host}")
-    private String NAVER_OPENAPI_HOST;
+    private final ApiConnection apiConnection;
 
     @GetMapping("/search")
     public ResponseDto blogSearch(RequestDto requestDto) throws IOException {
@@ -52,7 +41,7 @@ public class BlogController {
 
         ResponseDto responseDto = null;
         if(requestDto.getApiHost() == ApiHost.KAKAO) {
-            HttpURLConnection kakaoConnection = getHttpURLConnection(requestDto);
+            HttpURLConnection kakaoConnection = apiConnection.getHttpURLConnection(requestDto);
             if(kakaoConnection == null || kakaoConnection.getResponseCode() >= 500) {
                 requestDto.setApiHost(ApiHost.NAVER);
             } else {
@@ -60,39 +49,13 @@ public class BlogController {
             }
         }
         if(requestDto.getApiHost() == ApiHost.NAVER) {
-            HttpURLConnection naverConnection = getHttpURLConnection(requestDto);
+            HttpURLConnection naverConnection = apiConnection.getHttpURLConnection(requestDto);
             if(naverConnection != null) {
                 responseDto = makeResponseDtoFromNaver(naverConnection);
             }
         }
 
         return responseDto;
-    }
-
-    private HttpURLConnection getHttpURLConnection(RequestDto requestDto) throws IOException {
-        if(requestDto.getApiHost() == ApiHost.KAKAO) {
-            URL url = new URL(KAKAO_DAPI_HOST
-                    + "/v2/search/blog"
-                    + "?query=" + URLEncoder.encode(requestDto.getQuery(), StandardCharsets.UTF_8)
-                    + "&sort=" + requestDto.getSort()
-                    + "&page=" + requestDto.getPage()
-                    + "&size=" + requestDto.getSize()
-            );
-            return kakaoApiConnection.searchBlogGetConnection(url);
-        }
-
-        if(requestDto.getApiHost() == ApiHost.NAVER) {
-            URL url = new URL(NAVER_OPENAPI_HOST
-                    + "/v1/search/blog.json"
-                    + "?query=" + URLEncoder.encode(requestDto.getQuery(), StandardCharsets.UTF_8)
-                    + "&display=" + requestDto.getSize()
-                    + "&start=" + (requestDto.getPage() * requestDto.getSize() - requestDto.getSize() + 1)
-                    + "&sort=" + (requestDto.getSort().equals("accuracy") ? "sim" : "date")
-            );
-            return naverApiConnection.searchBlogGetConnection(url);
-        }
-
-        return null;
     }
 
     private ResponseDto makeResponseDtoFromKakao(HttpURLConnection connection) throws IOException {

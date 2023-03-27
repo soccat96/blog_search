@@ -1,4 +1,4 @@
-package kr.search.blog_search.util;
+package kr.search.blog_search.api;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,16 +8,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 @Component
-public class NaverApiConnection {
-    @Value("${naver.client.id}")
-    private String NAVER_CLIENT_ID;
-    @Value("${naver.client.secret}")
-    private String NAVER_CLIENT_SECRET;
+public class KakaoApiConnection {
+    @Value("${kakao.rest.api.key}")
+    private String KAKAO_REST_API_KEY;
 
     public HttpURLConnection searchBlogGetConnection(URL url) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestProperty("X-Naver-Client-Id", NAVER_CLIENT_ID);
-        connection.setRequestProperty("X-Naver-Client-Secret", NAVER_CLIENT_SECRET);
+        connection.setRequestProperty("Authorization", "KakaoAK " + KAKAO_REST_API_KEY);
         connection.setRequestMethod("GET");
         connection.connect();
 

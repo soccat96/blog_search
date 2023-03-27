@@ -1,6 +1,6 @@
 package kr.search.blog_search.web.dto;
 
-import kr.search.blog_search.util.ApiHost;
+import kr.search.blog_search.enums.ApiHost;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
