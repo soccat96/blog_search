@@ -1,7 +1,7 @@
 package kr.search.blog_search.web;
 
-import kr.search.blog_search.util.KakaoApiConnection;
-import kr.search.blog_search.util.NaverApiConnection;
+import kr.search.blog_search.api.KakaoApiConnection;
+import kr.search.blog_search.api.NaverApiConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;

@@ -25,6 +25,7 @@ public class SearchRankingService {
         } else {
             searchRankingRepository.save(
                     SearchRanking.builder()
+                            .id(bySearchText.getId())
                             .searchText(requestDto.getQuery())
                             .searchCount(bySearchText.getSearchCount() + 1)
                             .build()
