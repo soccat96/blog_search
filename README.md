@@ -1,9 +1,6 @@
 # blog_search
 kakao api, naver api 를 활용하여 블로그를 검색하는 학습용 프로젝트
 
-### Executable File
-https://drive.google.com/file/d/1m8nxtt_Qms3RJUxOXG7IOsw1QpeBT9Ii/view?usp=share_link
-
 ### requirements
 - JAVA 11
 - Gradle 7.6.1
