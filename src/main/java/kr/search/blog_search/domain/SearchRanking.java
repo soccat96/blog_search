@@ -13,7 +13,7 @@ public class SearchRanking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column
+    @Column(unique = true)
     private String searchText;
     @Column(columnDefinition = "bigint default 0", nullable = false)
     private long searchCount;
@@ -23,5 +23,9 @@ public class SearchRanking {
         this.id = id;
         this.searchText = searchText;
         this.searchCount = searchCount;
+    }
+
+    public void plusCount() {
+        this.searchCount += 1;
     }
 }
