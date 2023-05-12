@@ -1,7 +1,7 @@
 package kr.search.blog_search.service;
 
 import kr.search.blog_search.domain.SearchRanking;
-import kr.search.blog_search.domain.SearchRankingRepository;
+import kr.search.blog_search.repository.SearchRankingRepository;
 import kr.search.blog_search.web.dto.RequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

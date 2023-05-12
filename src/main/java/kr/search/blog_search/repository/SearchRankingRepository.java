@@ -1,5 +1,6 @@
-package kr.search.blog_search.domain;
+package kr.search.blog_search.repository;
 
+import kr.search.blog_search.domain.SearchRanking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,5 +1,6 @@
 package kr.search.blog_search.domain;
 
+import kr.search.blog_search.repository.SearchRankingRepository;
 import kr.search.blog_search.service.SearchRankingService;
 import kr.search.blog_search.web.dto.RequestDto;
 import org.junit.jupiter.api.AfterEach;
@@ -70,15 +71,12 @@ class SearchRankingTest {
 
         for(int i=0; i<10; i++) {
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText01).build());
-            if(i>9) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText02).build());
             if(i>8) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText03).build());
             if(i>4) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText04).build());
-            if(i>4) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText05).build());
-            if(i>4) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText06).build());
             if(i>0) continue;
             searchRankingService.saveOrUpdate(RequestDto.builder().query(searchText07).build());
