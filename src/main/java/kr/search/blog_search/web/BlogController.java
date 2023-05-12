@@ -1,7 +1,6 @@
 package kr.search.blog_search.web;
 
 import kr.search.blog_search.api.ApiConnection;
-import kr.search.blog_search.repository.SearchRankingRepository;
 import kr.search.blog_search.enums.ApiHost;
 import kr.search.blog_search.service.BlogService;
 import kr.search.blog_search.service.SearchRankingService;
