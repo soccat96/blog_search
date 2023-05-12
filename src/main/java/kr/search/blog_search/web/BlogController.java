@@ -19,14 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/blog")
 public class BlogController {
     private final BlogService blogService;
-    private final SearchRankingRepository searchRankingRepository;
     private final SearchRankingService searchRankingService;
     private final ApiConnection apiConnection;
 
@@ -63,7 +61,6 @@ public class BlogController {
 
     @GetMapping("/top10")
     public List<SearchRankingDto> getTop10() {
-        return searchRankingRepository.findTop10ByOrderBySearchCountDescSearchTextAsc()
-                .stream().map(SearchRankingDto::new).collect(Collectors.toList());
+        return searchRankingService.findTop10();
     }
 }
