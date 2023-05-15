@@ -18,6 +18,8 @@ public class SearchRanking {
     @Column(columnDefinition = "bigint default 1", nullable = false)
     private long searchCount;
 
+//    public SearchRanking() {} // 기본 생성자가 반드시 필요하다 but @NoArgsConstructor
+
     @Builder
     public SearchRanking(String searchText) {
         this.searchText = searchText;
