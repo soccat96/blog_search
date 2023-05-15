@@ -3,7 +3,6 @@ package kr.search.blog_search.domain;
 import kr.search.blog_search.repository.SearchRankingRepository;
 import kr.search.blog_search.service.SearchRankingService;
 import kr.search.blog_search.web.dto.RequestDto;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,11 +17,6 @@ class SearchRankingTest {
     private SearchRankingRepository searchRankingRepository;
     @Autowired
     private SearchRankingService searchRankingService;
-
-    @AfterEach
-    public void deleteAll() {
-        searchRankingRepository.deleteAll();
-    }
 
     @Test
     public void 생성자_확인() {
