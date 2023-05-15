@@ -26,7 +26,7 @@ public class SearchRanking {
         this.searchCount = 1; // columnDefinition = "bigint default 1" is not working...
     }
 
-    public void plusOneCount() {
-        this.searchCount += 1;
+    public void plusCount(int count) {
+        this.searchCount += count;
     }
 }

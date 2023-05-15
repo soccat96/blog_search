@@ -100,22 +100,16 @@ class SearchRankingEntityManagerRepositoryTest {
         repository.save(sr10);
         repository.save(sr11);
 
-        for (int i=0; i<10; i++) {
-            sr01.plusOneCount();
-            if (i >= 8) continue;
-            sr02.plusOneCount();
-            if (i >= 4) continue;
-            sr03.plusOneCount();
-            sr04.plusOneCount();
-            sr05.plusOneCount();
-            if (i >= 1) continue;
-            sr06.plusOneCount();
-            sr07.plusOneCount();
-            sr08.plusOneCount();
-            sr09.plusOneCount();
-            sr10.plusOneCount();
-        }
-
+        sr01.plusCount(10);
+        sr02.plusCount(8);
+        sr03.plusCount(4);
+        sr04.plusCount(4);
+        sr05.plusCount(4);
+        sr06.plusCount(1);
+        sr07.plusCount(1);
+        sr08.plusCount(1);
+        sr09.plusCount(1);
+        sr10.plusCount(1);
         List<SearchRanking> all = repository.findAll();
         List<SearchRanking> top10 = repository.findTop10();
 

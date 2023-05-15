@@ -28,7 +28,7 @@ public class SearchRankingService {
             );
         } else {
             // dirty checking
-            searchRanking.plusOneCount();
+            searchRanking.plusCount(1);
         }
     }
 

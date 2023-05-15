@@ -32,7 +32,7 @@ class SearchRankingTest {
     public void 카운트_증가() {
         SearchRanking sr = SearchRanking.builder().searchText("가나다라마바사").build();
 
-        sr.plusOneCount();
+        sr.plusCount(1);
 
         assertThat(sr.getSearchCount()).isEqualTo(2);
     }
