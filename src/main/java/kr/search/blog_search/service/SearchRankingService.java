@@ -24,12 +24,11 @@ public class SearchRankingService {
             repository.save(
                     SearchRanking.builder()
                             .searchText(requestDto.getQuery())
-                            .searchCount(1)
                             .build()
             );
         } else {
             // dirty checking
-            searchRanking.plusCount();
+            searchRanking.plusOneCount();
         }
     }
 
