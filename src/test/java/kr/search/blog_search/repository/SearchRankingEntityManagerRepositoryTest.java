@@ -32,6 +32,7 @@ class SearchRankingEntityManagerRepositoryTest {
     public void save() {
         // given
         SearchRanking sr = SearchRanking.builder().searchText(searchText01).build();
+
         // when
         Long savedId = repository.save(sr);
 
@@ -112,7 +113,6 @@ class SearchRankingEntityManagerRepositoryTest {
         sr10.plusCount(1);
         List<SearchRanking> all = repository.findAll();
         List<SearchRanking> top10 = repository.findTop10();
-
         assertThat(all.size()).isEqualTo(11);
         assertThat(top10.size()).isEqualTo(10);
         assertThat(top10.get(0).getSearchText()).isEqualTo(searchText01);

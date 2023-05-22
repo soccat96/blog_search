@@ -72,9 +72,9 @@ class SearchRankingRepositoryTest {
         sr08.plusCount(1);
         sr09.plusCount(1);
         sr10.plusCount(1);
+
         List<SearchRanking> all = repository.findAll();
         List<SearchRanking> top10 = repository.findTop10ByOrderBySearchCountDescSearchTextAsc();
-
         assertThat(all.size()).isEqualTo(11);
         assertThat(top10.size()).isEqualTo(10);
         assertThat(top10.get(0).getSearchText()).isEqualTo(searchText01);
