@@ -2,7 +2,6 @@ package kr.search.blog_search.service;
 
 import kr.search.blog_search.domain.SearchRanking;
 import kr.search.blog_search.repository.SearchRankingRepository;
-import kr.search.blog_search.web.dto.RequestDto;
 import kr.search.blog_search.web.dto.SearchRankingDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,15 +14,15 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 public class SearchRankingService {
-    private final SearchRankingRepository repository;
+    private final SearchRankingRepository searchRankingRepository;
 
     @Transactional
-    public void saveOrUpdate(RequestDto requestDto) {
-        SearchRanking searchRanking = repository.findBySearchText(requestDto.getQuery());
+    public void newSearchOrPlusCount(String searchText) {
+        SearchRanking searchRanking = searchRankingRepository.findBySearchText(searchText);
         if(searchRanking == null) {
-            repository.save(
+            searchRankingRepository.save(
                     SearchRanking.builder()
-                            .searchText(requestDto.getQuery())
+                            .searchText(searchText)
                             .build()
             );
         } else {
@@ -33,7 +32,7 @@ public class SearchRankingService {
     }
 
     public List<SearchRankingDto> findTop10() {
-        return repository.findTop10ByOrderBySearchCountDescSearchTextAsc()
+        return searchRankingRepository.findTop10ByOrderBySearchCountDescSearchTextAsc()
                 .stream().map(SearchRankingDto::new).collect(Collectors.toList());
     }
 }

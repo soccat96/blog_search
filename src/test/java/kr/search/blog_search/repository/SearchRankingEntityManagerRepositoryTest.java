@@ -111,6 +111,7 @@ class SearchRankingEntityManagerRepositoryTest {
         sr08.plusCount(1);
         sr09.plusCount(1);
         sr10.plusCount(1);
+
         List<SearchRanking> all = repository.findAll();
         List<SearchRanking> top10 = repository.findTop10();
         assertThat(all.size()).isEqualTo(11);
