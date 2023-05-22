@@ -29,7 +29,7 @@ public class BlogController {
 
     @GetMapping("/search")
     public ResponseDto blogSearch(RequestDto requestDto) throws IOException {
-        searchRankingService.saveOrUpdate(requestDto);
+        searchRankingService.newSearchOrPlusCount(requestDto.getQuery());
 
         ResponseDto responseDto = null;
         if(requestDto.getApiHost() == ApiHost.KAKAO) {
